@@ -1,11 +1,12 @@
-from alba_hell import app
-from alba_hell import db
-from alba_hell.model import Store
-from alba_hell.model import Employee
+from . import app
+from . import db
+from .model import Store
+from .model import Employee
 from flask import request
 from flask import redirect
 from flask import jsonify
 from flask import session
+from flask import render_template
 
 
 @app.route('/login', methods=['post'])
@@ -83,3 +84,15 @@ def sign_up_emp():
     db.session.add(emp)
     db.session.commit()
     return redirect('/')
+
+
+@app.route('/users', methods=['post', 'get'])
+def sign_up_emp():
+    if request.method == 'post':
+        pass
+    items = Employee.query.all()
+
+    return render_template("employee_table.html", items=items)
+
+
+
