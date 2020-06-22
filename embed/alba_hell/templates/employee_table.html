@@ -8,17 +8,15 @@
     <table class="table">
     <thead>
     <tr>
-        <th>ID</th>
-        <th>직원 성명</th>
+        <th class="text-primary text-center">ID</th>
+        <th class="text-primary text-center">직원 성명</th>
     </tr>
     </thead>
     <tbody>
     {% for item in items %}
         <tr>
-            <td>
-                {{ item[0] }}
-                {{ item[1] }}
-            </td>
+            <td>{{ item[0] }}</td>
+            <td>{{ item[1] }}</td>
         </tr>
     {% endfor %}
     </tbody>
