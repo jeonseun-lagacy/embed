@@ -87,6 +87,19 @@ def sign_up_emp():
     return redirect('/')
 
 
+@app.route('/user/register/<emp_id>')
+def register_emp(emp_id):
+    is_success = False
+    try:
+        db.session.query().filter(Employee.id == emp_id).update({"store_id": session['id']})
+        db.session.commit()
+        is_success = True
+    except Exception as ex:
+        app.logger.debug(ex)
+
+    return str(is_success)
+
+
 @app.route('/users')
 def show_emp_list():
     items = Employee.query.all()
@@ -94,6 +107,3 @@ def show_emp_list():
         app.logger.debug(item)
 
     return render_template("employee_table.html", items=items)
-
-
-
