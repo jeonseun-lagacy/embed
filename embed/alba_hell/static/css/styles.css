@@ -1,0 +1,31 @@
+@import "side-nav.css";
+@import "sroll.css";
+body {
+    background-image: url("../../static/image/background-bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    height: 100vh;
+    width: 100vw;
+    z-index: -4;
+}
+
+.rgba-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    width: 100vw;
+    height: 100vh;
+    z-index: -3;
+}
+
+.main {
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    background: transparent;
+    width: 75%;
+    height: 95%;
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.5), 3px 3px 20px rgba(0, 0, 0, 0.5);
+}

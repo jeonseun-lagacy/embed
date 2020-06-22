@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block styles %}
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main {
+            display: none;
+        }
+
+    </style>
+{% endblock %}
+{% block input %}
+    <div class="container-sm">
+        <form action="/attendance" method="post" class="card p-3 align-items-center">
+            <h3 class="mb-3">출퇴근 체크</h3>
+            <input class="form-control form-control-lg mb-4 shadow-lg" type="text" placeholder="알바헬 아이디" name="id">
+            <input class="form-control form-control-lg mb-4 shadow-lg" type="password" placeholder="알바헬 비밀번호" name="password">
+            <input type="submit" class="btn btn-primary" value="알바헬 로그인">
+        </form>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="../../static/js/kakao-api.js"></script>
+    <script src="../../static/js/kakao-login.js"></script>
+{% endblock %}

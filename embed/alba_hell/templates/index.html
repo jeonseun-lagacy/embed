@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}
+    <title>직원관리 플랫폼</title>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
+        }
+        .main{
+            display: none !important;
+        }
+    </style>
+{% endblock %}
+{% block input %}
+    <div class="container-lg card w-25 p-5 animated fadeInDown shadow-lg">
+        <h3 class="text-center">Welcome to Hell</h3>
+        <form action="/login" method="post">
+            <div class="md-form">
+                <i class="fas fa-user prefix"></i>
+                <input type="text" class="form-control" id="id" name="id">
+                <label for="id">ID</label>
+            </div>
+            <div class="md-form">
+                <i class="fas fa-lock prefix"></i>
+                <input type="password" class="form-control" id="password" name="password">
+                <label for="password">Password</label>
+            </div>
+            <div class="d-flex flex-column align-items-center">
+                <div>
+                    <input type="submit" class="btn btn-primary" value="Sign In"/>
+                    <a href="/sign-up" class="btn btn-info">Sign Up</a>
+                </div>
+                <div id="btnKakaoLogin" class="text-center mt-1"></div>
+            </div>
+
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}
