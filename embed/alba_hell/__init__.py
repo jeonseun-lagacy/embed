@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://embed_admin:1234@113.198.235.225/embed'
 app.config['LOGGING_LEVEL'] = logging.DEBUG
 app.config['SECRET_KEY'] = 'this is secret!!'
-
+app.config['JSON_AS_ASCII'] = False
 db = SQLAlchemy(app)
 
 

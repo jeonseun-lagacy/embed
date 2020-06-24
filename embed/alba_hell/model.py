@@ -28,4 +28,14 @@ class Attendance(db.Model):
     emp_id = db.Column(db.String(16), primary_key=True)
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=True)
-    today = db.Column(db.DateTime, default=datetime.today())
+    today = db.Column(db.DateTime, default=datetime.today(), primary_key=True)
+
+
+class Temp(db.Model):
+    __tablename__ = "temperature"
+    __table_args__ =  {'mysql_collate': 'utf8_general_ci'}
+
+    store_id = db.Column(db.String(16), primary_key=True)
+    measure_time = db.Column(db.DateTime, nullable=False, primary_key=True)
+    temp = db.Column(db.String(100), nullable=False)
+    humidity = db.Column(db.String(100), nullable=False)

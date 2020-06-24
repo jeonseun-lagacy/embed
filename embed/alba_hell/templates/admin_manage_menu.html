@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{% endblock %}
+
+{% block sidenav %}
+    {% include "admin_side_nav.html" %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand black-text bg-white border-white">
+        <b class="navbar-brand p-2 m-2" href="#"><h3>관리자 페이지</h3></b>
+    </nav>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="white-gradient"></div>
+ <table class="table bg-info">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th class="text-primary text-center">ID</th>
+                <th class="text-primary text-center">직원 성명</th>
+                <th>etc</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set i = 0 %}
+            {% for item in items %}
+                <tr id="tr_{{ i + 1 }}">
+                    <td><i class="far fa-dizzy fa-5x"></i></td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.emp_name }}</td>
+                    <td>
+                        <button class="btn btn-primary" onclick="registEmp('{{ item.id }}')"> ADD User</button>
+                    </td>
+
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+{% endblock %}
+{% block js %}
+    <script>
+        const sideList = document.getElementsByClassName('list-group-item');
+        for(let i = 0; i < sideList.length; i++){
+            sideList[i].classList.remove('active');
+        }
+
+        sideList[2].classList.add('active');
+
+        function registEmp(id) {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    if(xhr.responseText === 'success'){
+                        alert("호에엥 됬드아");
+                    }else{
+                        alert("T T");
+                    }
+                }
+            }
+            xhr.open('get', '/user/register/' + id, true);
+            xhr.send();
+            {#window.location.href = '/user/register/' + id;#}
+        }
+    </script>
+{% endblock %}

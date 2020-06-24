@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{% endblock %}
+
+{% block sidenav %}
+    {% include "admin_side_nav.html" %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand black-text bg-white border-white">
+        <b class="navbar-brand p-2 m-2" href="#"><h3>관리자 페이지</h3></b>
+    </nav>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="white-gradient"></div>
+    <canvas id="lineChart"></canvas>
+
+
+{% endblock %}
+{% block js %}
+    <script>
+        const sideList = document.getElementsByClassName('list-group-item');
+        for (let i = 0; i < sideList.length; i++) {
+            sideList[i].classList.remove('active');
+        }
+
+        sideList[4].classList.add('active');
+
+    </script>
+
+    <script>
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open("post", "/temps", true);
+        httpRequest.onreadystatechange = function () {
+            if (httpRequest.readyState == 4 && httpRequest.status == 200) {
+                process();    // 조건을 만족하면 처리
+
+            }
+        }
+
+        httpRequest.send(null);
+
+        function process() {   // 실제 처리
+            var data = httpRequest.responseText;    // xml 형식의 데이터를 읽을경우 responseXML
+            if (httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200) {
+
+                var parseData = JSON.parse(data);    // 객체화 : 배열처리
+                var inan_time = new Array();
+                var inan_temper = new Array();
+                var inan_humidity = new Array();
+                console.log(parseData.all[0])
+                for (let i = 0; i < parseData.all.length;  i++){
+                }
+                for (var i = 0; i < parseData.all.length; i++) {
+                    inan_time[i] = parseData.all[i].time;
+                }
+                for (var i = 0; i < parseData.all.length; i++) {
+                    inan_temper[i] = parseData.all[i].temp;
+                }
+                for (var i = 0; i < parseData.all.length; i++) {
+                    inan_humidity[i] = parseData.all[i].humidity;
+                }
+
+                //line
+                var ctxL = document.getElementById("lineChart").getContext('2d');
+                var myLineChart = new Chart(ctxL, {
+                    type: 'line',
+                    data: {
+                        labels: inan_time, //["January", "February", "March", "April", "May", "June", "July"], // todo 시간
+                        datasets: [{
+                            label: "온도",
+                            data: inan_temper,//[65, 59, 80, 81, 56, 55, 40], //todo 데이터베이스 온도
+                            backgroundColor: [
+                                'rgba(105, 0, 132, .2)',
+                            ],
+                            borderColor: [
+                                'rgba(200, 99, 132, .7)',
+                            ],
+                            borderWidth: 2
+                        },
+                            {
+                                label: "습도",
+                                data: inan_humidity,//[28, 48, 40, 19, 86, 27, 90], // todo 데이터베이스 습도
+                                backgroundColor: [
+                                    'rgba(0, 137, 132, .2)',
+                                ],
+                                borderColor: [
+                                    'rgba(0, 10, 130, .7)',
+                                ],
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            }
+        }
+
+
+    </script>
+
+{% endblock %}

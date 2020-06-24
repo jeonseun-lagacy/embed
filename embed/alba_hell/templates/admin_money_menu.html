@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{% endblock %}
+
+{% block sidenav %}
+    {% include "admin_side_nav.html" %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand black-text bg-white border-white">
+        <b class="navbar-brand p-2 m-2" href="#"><h3>관리자 페이지</h3></b>
+    </nav>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="white-gradient"></div>
+    <canvas id="myChart" style="max-width: 100%; height: 80%"></canvas>
+
+
+{% endblock %}
+{% block js %}
+    <script>
+        const sideList = document.getElementsByClassName('list-group-item');
+        for (let i = 0; i < sideList.length; i++) {
+            sideList[i].classList.remove('active');
+        }
+
+        sideList[3].classList.add('active');
+
+        window.onload = getWorkData;
+        const workerNames = [];
+        const workingTime = [];
+        let datas;
+        function getWorkData() {
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    //console.log(JSON.parse(xhr.responseText));
+                    datas = JSON.parse(xhr.responseText);
+
+                    for (const data in datas) {
+                        workerNames.push(data);
+                    }
+
+                    for(let i = 0; i < workerNames.length; i++){
+                        let time = 0;
+                        for(let j = 0; j < datas[workerNames[i]].length; j++){
+                            time = datas[workerNames[i]][j];
+                        }
+                        workingTime.push(time);
+                    }
+
+
+
+
+                //callback
+                    var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: workerNames,
+                datasets: [{
+                    label: '# of Votes',
+                    data: workingTime,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+                }
+            }
+            xhr.open('post', '/attendances', true);
+            xhr.send();
+        }
+
+
+
+    </script>
+{% endblock %}

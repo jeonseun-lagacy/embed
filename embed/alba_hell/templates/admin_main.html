@@ -17,56 +17,20 @@
 
 {% block content %}
     <div class="white-gradient"></div>
-
     <div class="container-fluid scroll mt-4">
-        <div class="row">
-            <div class="col-lg-6">
 
-                <!-- Card -->
-                <div class="card">
-                                    <canvas id="myChart" style="max-width: 100%;"></canvas>
+        <!-- Card -->
+        <div class="card">
+            <img src="../static/image/store.jpg" alt="">
+            <!-- Card content -->
+            <div class="card-body">
 
-                    <!-- Card content -->
-                    <div class="card-body">
+                <!-- Title -->
+                <h4 class="card-title" id="managerName"><a></a></h4>
+                <!-- Text -->
+                <p class="card-text" id="storeName"></p>
 
-                        <!-- Title -->
-                        <h4 class="card-title"><a>Card title</a></h4>
-                        <!-- Text -->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's
-                            content.</p>
-                        <!-- Button -->
-                        <a href="#" class="btn btn-primary">Button</a>
 
-                    </div>
-
-                </div>
-                <!-- Card -->
-            </div>
-            <div class="col-lg-6">
-                <!-- Card -->
-                <div class="card">
-
-                    <!-- Card image -->
-                    <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/images/43.jpg"
-                         alt="Card image cap">
-
-                    <!-- Card content -->
-                    <div class="card-body">
-
-                        <!-- Title -->
-                        <h4 class="card-title"><a>Card title</a></h4>
-                        <!-- Text -->
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's
-                            content.</p>
-                        <!-- Button -->
-                        <a href="#" class="btn btn-primary">Button</a>
-
-                    </div>
-
-                </div>
-                <!-- Card -->
             </div>
         </div>
 
@@ -76,41 +40,20 @@
 
 {% block js %}
     <script>
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+        window.onload = loadStoreData;
+        function loadStoreData(){
+            const xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4 && xhr.status === 200){
+                    const managerName = document.getElementById('managerName');
+                    const storeName = document.getElementById('storeName');
+                    data = JSON.parse(xhr.responseText);
+                    managerName.innerHTML = data.manager_name;
+                    storeName.innerHTML = data.store_name;
                 }
             }
-        });</script>
+            xhr.open('post', '/store', true);
+            xhr.send();
+        }
+    </script>
 {% endblock %}

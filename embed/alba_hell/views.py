@@ -22,3 +22,23 @@ def main_page():
         return render_template('admin_main.html')
     else:
         return render_template('emp_main.html')
+
+
+@app.route('/success')
+def success_page():
+    return render_template('success_page.html')
+
+
+@app.route('/admin_graph_menu')
+def graph_page():
+    return render_template('admin_graph_menu.html')
+
+
+@app.route('/admin_money_menu')
+def money_page():
+    return render_template('admin_money_menu.html')
+
+
+@app.route('/admin_camera_menu')
+def camera_page():
+    return render_template('admin_camera_menu.html')

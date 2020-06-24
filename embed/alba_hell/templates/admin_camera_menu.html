@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block styles %}
+{% endblock %}
+
+{% block sidenav %}
+    {% include "admin_side_nav.html" %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand black-text bg-white border-white">
+        <b class="navbar-brand p-2 m-2" href="#"><h3>관리자 페이지</h3></b>
+    </nav>
+
+{% endblock %}
+
+
+{% block content %}
+    <div class="white-gradient"></div>
+    <div class="w-75 h-75 d-flex justify-content-center align-items-center">
+    <img class="card" src="http://192.168.0.73:8765/video_feed" alt="" width="70%" height="70%">
+    </div>
+
+{% endblock %}
+{% block js %}
+    <script>
+        const sideList = document.getElementsByClassName('list-group-item');
+        for (let i = 0; i < sideList.length; i++) {
+            sideList[i].classList.remove('active');
+        }
+
+        sideList[1].classList.add('active');
+
+    </script>
+
+
+{% endblock %}

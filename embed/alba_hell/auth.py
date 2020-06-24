@@ -6,6 +6,7 @@ from flask import request
 from flask import redirect
 from flask import jsonify
 from flask import session
+from flask import render_template
 
 
 @app.route('/login', methods=['post'])
@@ -83,3 +84,42 @@ def sign_up_emp():
     db.session.add(emp)
     db.session.commit()
     return redirect('/')
+
+
+@app.route('/management')
+def show_emp_list():
+    items = Employee.query.all()
+    app.logger.info(session['id'])
+    for item in items:
+        app.logger.debug(item)
+
+    return render_template("admin_manage_menu.html", items=items)
+
+
+@app.route('/user/register/<emp_id>')
+def register_emp(emp_id):
+    is_success = False
+    app.logger.info(session['id'])
+    try:
+        Employee.query.filter_by(id=emp_id).update({"store_id": session['id']})
+        db.session.commit()
+        is_success = True
+        return "success"
+    except Exception as ex:
+        app.logger.debug(ex)
+
+    return "failed"
+
+
+@app.route('/store', methods=['post'])
+def get_store_info():
+    id = session['id']
+    rs = Store.query.filter_by(id=id).first()
+    app.logger.debug(rs.id)
+    app.logger.debug(rs.manager_name)
+    app.logger.debug(rs.store_name)
+    store_data = {
+        "store_name": rs.store_name,
+        "manager_name": rs.manager_name
+    }
+    return jsonify(store_data)

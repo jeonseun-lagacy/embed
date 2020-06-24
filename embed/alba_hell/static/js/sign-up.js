@@ -138,23 +138,6 @@ init();
 
 
 
-const xhr = new XMLHttpRequest();
-xhr.onreadystatechange = function () {
-    test = JSON.parse(xhr.responseText);
-}
-xhr.setRequestHeader('content/')
-xhr.open('get', '/', true);
-xhr.send(JSON);
-
-
-
-
-
-
-
-
-
-
 
 
 
