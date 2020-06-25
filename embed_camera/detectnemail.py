@@ -8,11 +8,16 @@ import motion
 smtp_server = "smtp.gmail.com"
 port = 587
 portssl = 465
+
+# 사용자 아이디 및 비밀번호 입력
 userid = input("GMail ID : ")
 passwd = getpass.getpass('Password:')
 
 
 def sendMail(image):
+    """
+    메시지 송수신인, 내용 (이미지 포함) 설정
+    """
     to=[userid]
     imageByte=cv2.imencode(".jpeg",image)[1].tostring()
     msg=MIMEMultipart()
@@ -53,19 +58,20 @@ if __name__ == '__main__':
         thrimg = cv2.threshold(diff, thresh, 1, cv2.THRESH_BINARY)[1]
         count = cv2.countNonZero(thrimg)
 
-        # if invader is checked.
-        if count > 1:
+        # 움직임이 있다고 판단될 경우 카운트를 올리고, 10 프레임 관찰될 경우 메일 전송
+        if count > 400:
             checkFlag += 1
-        elif checkFlag >= 10 and flag == False:
+            
+        elif checkFlag >= 10:
             sendMail(i[2])
             flag=True
-            print("가게 내부에 움직임이 감지되었습니다. 확인해주세요")
+            print("메시지 전송")
+            
         elif count==0 and flag==True:
             flag=False
             checkFlag=0
-
+        
         print("Check Flag : " + str(checkFlag))
-
         motion.updateCameraImage(cam, i)
         key = cv2.waitKey(10)
         if key == 27:
